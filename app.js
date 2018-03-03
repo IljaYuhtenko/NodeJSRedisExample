@@ -1,22 +1,19 @@
-var bluebird = require('bluebird');
+var requires = require('./config/requires');
+var client = require('./config/redisClient');
 
-var redis = require('redis');
-bluebird.promisifyAll(redis.RedisClient.prototype);
-bluebird.promisifyAll(redis.Multi.prototype);
+const app = new requires.koa();
+const router = new requires.router();
 
-//In case your DB in other server use redis.createClient(port, host)
-var client = redis.createClient();
-client.auth('mySuperStrongRedisDatabasePass');
+app.use(requires.bodyParser())
+    .use(requires.logger());
 
-client.on("error", (err) => {
-    console.log("Error: " + err);
-})
+router.get('/', async ctx => {
+    ctx.body = "Hello, World";
+});
 
-client.set("test", "test body", redis.print);
-client.get("test", redis.print);
-client.del("test", redis.print);
-client.getAsync("test").then( (res) => {
-    console.log(res);
-})
+app.use(router.routes())
+    .use(router.allowedMethods());
 
-client.quit();
+app.listen(8000, () => {
+    console.log("Server running on port 8000");
+});
