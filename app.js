@@ -10,9 +10,9 @@ app.use(requires.bodyParser())
 //Create routes
 router.post('/', routes.create);
 
-/* //Read routes
+//Read routes
 router.get('/', routes.getAll);
-router.get('/:id', routes.get);
+/* router.get('/:id', routes.get);
 
 //Update routes
 router.put('/:id', routes.update);
