@@ -1,15 +1,17 @@
 const redis = require('redis');
 const bluebird = require('bluebird');
 const redisPass = 'mySuperStrongRedisDatabasePass';
+const redisID = 0;
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
-var client = redis.createClient(6789, '185.124.188.91');
+var client = redis.createClient();
 client.auth(redisPass);
 
 client.on("error", (err) => {
     console.log("Error: " + err);
 })
 
-module.exports = client;
+module.exports.client = client;
+module.exports.redisID = redisID;

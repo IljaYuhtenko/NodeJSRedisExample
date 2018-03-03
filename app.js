@@ -1,5 +1,5 @@
-var requires = require('./config/requires');
-var client = require('./config/redisClient');
+const requires = require('./config/requires');
+const routes = require('./routes/routes');
 
 const app = new requires.koa();
 const router = new requires.router();
@@ -7,9 +7,18 @@ const router = new requires.router();
 app.use(requires.bodyParser())
     .use(requires.logger());
 
-router.get('/', async ctx => {
-    ctx.body = "Hello, World";
-});
+//Create routes
+router.post('/', routes.create);
+
+/* //Read routes
+router.get('/', routes.getAll);
+router.get('/:id', routes.get);
+
+//Update routes
+router.put('/:id', routes.update);
+
+//Delete route
+router.delete('/:id', routes.delete); */
 
 app.use(router.routes())
     .use(router.allowedMethods());
