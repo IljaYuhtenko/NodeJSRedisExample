@@ -1,12 +1,12 @@
 const client = require('../config/redisClient').client;
-var redisID = require('../config/redisClient').redisID;
+const redisID = require('../config/redisClient').redisID;
 
 module.exports = {
     create: async (ctx) => {
 
-        var title = ctx.request.body.title;
-        var body = ctx.request.body.body;
-        var key = redisID;
+        let title = ctx.request.body.title;
+        let body = ctx.request.body.body;
+        let key = redisID;
 
         let res = await client.hmsetAsync(key.toString(), "title", title, "body", body);
 
@@ -20,7 +20,29 @@ module.exports = {
         for (let key of keys) {
             let title = await client.hgetAsync(key, 'title');
             let body = await client.hgetAsync(key, 'body');
-            ctx.body += title + ": " + body + "\n";
+            ctx.body += key + ") " + title + ": " + body + "\n";
         };
+    },
+    get: async (ctx) => {
+        let key = ctx.params.id;
+        let title = await client.hgetAsync(key, 'title');
+        let body = await client.hgetAsync(key, 'body');
+        ctx.body = title + ": " + body + "\n";
+    },
+    update: async (ctx) => {
+        let key = ctx.params.id;
+        let title = ctx.request.body.title;
+        let body = ctx.request.body.body;
+
+        client.hmsetAsync(key, 'title', title, 'body', body);
+
+        ctx.redirect('/' + key);
+    },
+    delete: async (ctx) => {
+        let key = ctx.params.id;
+
+        client.hdelAsync(key, 'title', 'body');
+
+        ctx.redirect('/');
     }
 }

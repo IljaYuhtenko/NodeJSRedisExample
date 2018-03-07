@@ -12,13 +12,13 @@ router.post('/', routes.create);
 
 //Read routes
 router.get('/', routes.getAll);
-/* router.get('/:id', routes.get);
+router.get('/:id', routes.get);
 
 //Update routes
 router.put('/:id', routes.update);
 
 //Delete route
-router.delete('/:id', routes.delete); */
+router.delete('/:id', routes.delete);
 
 app.use(router.routes())
     .use(router.allowedMethods());
