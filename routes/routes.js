@@ -25,8 +25,10 @@ module.exports = {
     },
     get: async (ctx) => {
         let key = ctx.params.id;
+
         let title = await client.hgetAsync(key, 'title');
         let body = await client.hgetAsync(key, 'body');
+        
         ctx.body = title + ": " + body + "\n";
     },
     update: async (ctx) => {
