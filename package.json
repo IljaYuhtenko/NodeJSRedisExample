@@ -9,6 +9,9 @@
     "koa-bodyparser": "^4.2.0",
     "koa-logger": "^3.1.0",
     "koa-router": "^7.4.0",
+    "nodejs-md5": "^1.0.2",
+    "npm": "^5.7.1",
+    "pg": "^7.4.1",
     "redis": "^2.8.0",
     "redis-await": "^1.0.6"
   },

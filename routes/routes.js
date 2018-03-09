@@ -1,5 +1,6 @@
 const client = require('../config/redisClient').client;
 const redisID = require('../config/redisClient').redisID;
+const pgClient = require('../config/postgresql').pgClient;
 
 module.exports = {
     create: async (ctx) => {
@@ -15,6 +16,9 @@ module.exports = {
         console.log(res);
     },
     getAll: async (ctx) => {
+        let test = await pgClient.query('SELECT NOW() as now');
+        console.log('Pg test is - ' + test.rows[0].now);
+
         let keys = await client.keysAsync("*");
         ctx.body = "";
         for (let key of keys) {
